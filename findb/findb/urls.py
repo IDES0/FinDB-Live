@@ -22,5 +22,6 @@ urlpatterns = [
     # path('accounts/', include('allauth.urls')), # Prob can remove this later
     path('', include('main.urls')),
     path('user/', include('users.urls')),
+    path('trade/', include('trade.urls')),
 
 ]

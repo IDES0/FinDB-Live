@@ -14,8 +14,13 @@
         </div>
         <ul class="nav-links">
             <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="#">Trade</a></li>
-
+            <li class="dropdown">
+                <a href="{% url 'trade_view' %}" class="dropbtn">Trade</a>
+                <div class="dropdown-content">
+                    <a href="{% url 'trade_view' %}">Trade</a>
+                    <a href="{% url 'portfolio_view' %}">Portfolio</a>
+                </div>
+            </li>
             {% if user.is_authenticated %}
                 <li class="dropdown">
                     <a href="#" class="dropbtn">{{ user.username }}</a>

@@ -236,3 +236,63 @@ body {
     background-color: #4caf50; /* Change background on hover */
     color: #fff; /* Change text color on hover */
 }
+
+
+/* Centering the trade container */
+.trade-container {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 300px;
+    margin: 0 auto; /* Centering the container */
+    text-align: center;
+    margin-top: 50px; /* Adjust margin for spacing from the top */
+}
+
+.trade-container h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.trade-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.trade-container input[type="text"],
+.trade-container input[type="number"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #333;
+    background-color: #333;
+    color: #ffffff;
+}
+
+.trade-container input[type="radio"] {
+    margin-right: 5px;
+}
+
+.trade-container button {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.trade-container button:hover {
+    background-color: #0056b3;
+}
+
+/* Styling the summary */
+.trade-summary {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.trade-summary p {
+    margin: 5px 0;
+}

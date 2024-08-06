@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="trade-container">
+    <h1>Make a Trade</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="ticker">Ticker Symbol:</label>
+        {{ form.ticker }}
+
+        <label for="quantity">Quantity:</label>
+        {{ form.quantity }}
+
+        <label for="action">Action:</label>
+        {{ form.action }}
+
+        <button type="submit">Search and Calculate</button>
+    </form>
+
+    {% if success %}
+    <div class="trade-summary">
+        <h2>Trade Summary</h2>
+        <p><strong>Ticker:</strong> {{ ticker }}</p>
+        <p><strong>Quantity:</strong> {{ quantity }}</p>
+        <p><strong>Price per Share:</strong> ${{ price }}</p>
+        <p><strong>Total Cost:</strong> ${{ total_cost }}</p>
+        <p><strong>Remaining Balance:</strong> ${{ remaining_balance }}</p>
+        <p><strong>Action:</strong> {{ action|capfirst }}</p>
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+</div>
+{% endblock %}
