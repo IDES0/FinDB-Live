@@ -28,7 +28,11 @@ def trade_view(request):
                     portfolio.balance -= total_cost
                     portfolio.save()
 
-                    holding, created = Holding.objects.get_or_create(portfolio=portfolio, security__symbol=ticker)
+                    # Get or create the Security object
+                    security, created = Security.objects.get_or_create(symbol=ticker)
+
+                    # Now, get or create the Holding object
+                    holding, created = Holding.objects.get_or_create(portfolio=portfolio, security=security)                    
                     holding.quantity += quantity
                     holding.save()
 

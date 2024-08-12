@@ -1,124 +1,117 @@
 {% extends 'base.html' %}
-
+{% load tz %}
 {% block content %}
-<div class="container">
-    <!-- Portfolio Section -->
-    <div class="portfolio-container">
-        <h1>Your Portfolio</h1>
-        <p><strong>Current Balance:</strong> ${{ portfolio_balance }}</p>
+<div class="portfolio-container">
+    <h1>Your Portfolio</h1>
+    <p><strong>Current Balance:</strong> ${{ portfolio_balance }}</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Security</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for holding in holdings %}
+            <tr>
+                <td>{{ holding.security.symbol }}</td>
+                <td>{{ holding.quantity }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2">No holdings in your portfolio.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="trade-container">
+    <h1>Make a Trade</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {% if confirm %}
+            <div class="trade-summary">
+                <h2>Confirm Trade Details</h2>
+                <p><strong>Ticker:</strong> {{ ticker }}</p>
+                <p><strong>Quantity:</strong> {{ quantity }}</p>
+                <p><strong>Price per Share:</strong> ${{ price }}</p>
+                <p><strong>Total Cost:</strong> ${{ total_cost }}</p>
+                <p><strong>Remaining Balance (after trade):</strong> ${{ remaining_balance }}</p>
+                <p><strong>Action:</strong> {{ action|capfirst }}</p>
+
+                <input type="hidden" name="ticker" value="{{ ticker }}">
+                <input type="hidden" name="quantity" value="{{ quantity }}">
+                <input type="hidden" name="action" value="{{ action }}">
+
+                <button type="submit" name="confirm_trade">Confirm Trade</button>
+                <button type="submit">Cancel</button>
+            </div>
+        {% else %}
+            <label for="ticker">Ticker Symbol:</label>
+            {{ form.ticker }}
+
+            <label for="quantity">Quantity:</label>
+            {{ form.quantity }}
+
+            <label for="action">Action:</label>
+            {{ form.action }}
+
+            <button type="submit">Review Trade</button>
+        {% endif %}
+    </form>
+
+    {% if success %}
+    <div class="trade-summary">
+        <h2>Trade Executed Successfully</h2>
+        <p><strong>Ticker:</strong> {{ ticker }}</p>
+        <p><strong>Quantity:</strong> {{ quantity }}</p>
+        <p><strong>Price per Share:</strong> ${{ price }}</p>
+        <p><strong>Total Cost:</strong> ${{ total_cost }}</p>
+        <p><strong>Remaining Balance:</strong> ${{ remaining_balance }}</p>
+        <p><strong>Action:</strong> {{ action|capfirst }}</p>
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+</div>
+
+<div class="history-container">
+    <h1>Trade History</h1>
+        <summary>Click to view your trade history</summary>
         <table>
             <thead>
                 <tr>
+                    <th>Date</th>
                     <th>Security</th>
+                    <th>Action</th>
                     <th>Quantity</th>
+                    <th>Price</th>
                 </tr>
             </thead>
             <tbody>
-                {% for holding in holdings %}
+                {% for transaction in transactions %}
                 <tr>
-                    <td>{{ holding.security.symbol }}</td>
-                    <td>{{ holding.quantity }}</td>
+                    <td>{{ transaction.transaction_date|localtime }}</td>
+                    <td>{{ transaction.security.symbol }}</td>
+                    <td>
+                        {% if transaction.quantity > 0 %}
+                            Buy
+                        {% else %}
+                            Sell
+                        {% endif %}
+                    </td>
+                    <td>{{ transaction.quantity }}</td>
+                    <td>{{ transaction.price_at_transaction }}</td>
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="2">No holdings in your portfolio.</td>
+                    <td colspan="5">No trades to display.</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-
-    <!-- Trade Section -->
-    <div class="trade-container">
-        <h1>Make a Trade</h1>
-        <form method="POST">
-            {% csrf_token %}
-            {% if confirm %}
-                <div class="trade-summary">
-                    <h2>Confirm Trade Details</h2>
-                    <p><strong>Ticker:</strong> {{ ticker }}</p>
-                    <p><strong>Quantity:</strong> {{ quantity }}</p>
-                    <p><strong>Price per Share:</strong> ${{ price }}</p>
-                    <p><strong>Total Cost:</strong> ${{ total_cost }}</p>
-                    <p><strong>Remaining Balance (after trade):</strong> ${{ remaining_balance }}</p>
-                    <p><strong>Action:</strong> {{ action|capfirst }}</p>
-
-                    <input type="hidden" name="ticker" value="{{ ticker }}">
-                    <input type="hidden" name="quantity" value="{{ quantity }}">
-                    <input type="hidden" name="action" value="{{ action }}">
-
-                    <button type="submit" name="confirm_trade">Confirm Trade</button>
-                    <button type="submit">Cancel</button>
-                </div>
-            {% else %}
-                <label for="ticker">Ticker Symbol:</label>
-                {{ form.ticker }}
-
-                <label for="quantity">Quantity:</label>
-                {{ form.quantity }}
-
-                <label for="action">Action:</label>
-                {{ form.action }}
-
-                <button type="submit">Review Trade</button>
-            {% endif %}
-        </form>
-
-        {% if success %}
-        <div class="trade-summary">
-            <h2>Trade Executed Successfully</h2>
-            <p><strong>Ticker:</strong> {{ ticker }}</p>
-            <p><strong>Quantity:</strong> {{ quantity }}</p>
-            <p><strong>Price per Share:</strong> ${{ price }}</p>
-            <p><strong>Total Cost:</strong> ${{ total_cost }}</p>
-            <p><strong>Remaining Balance:</strong> ${{ remaining_balance }}</p>
-            <p><strong>Action:</strong> {{ action|capfirst }}</p>
-        </div>
-        {% endif %}
-
-        {% if error %}
-        <p class="error">{{ error }}</p>
-        {% endif %}
-    </div>
-
-    <!-- Trade History Section -->
-    <div class="history-container">
-        <h1>Trade History</h1>
-        <details>
-            <summary>Click to view your trade history</summary>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Security</th>
-                        <th>Action</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for transaction in transactions %}
-                    <tr>
-                        <td>{{ transaction.transaction_date }}</td>
-                        <td>{{ transaction.security.symbol }}</td>
-                        <td>
-                            {% if transaction.quantity > 0 %}
-                                Buy
-                            {% else %}
-                                Sell
-                            {% endif %}
-                        </td>
-                        <td>{{ transaction.quantity }}</td>
-                        <td>{{ transaction.price_at_transaction }}</td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="5">No trades to display.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </details>
-    </div>
-</div>
 {% endblock %}
