@@ -4,7 +4,7 @@
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Finance Project{% endblock %}</title>
+    <title>{% block title %}FinDB{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
 </head>
 <body>
@@ -18,7 +18,6 @@
                 <a href="{% url 'trade_view' %}" class="dropbtn">Trade</a>
                 <div class="dropdown-content">
                     <a href="{% url 'trade_view' %}">Trade</a>
-                    <a href="{% url 'portfolio_view' %}">Portfolio</a>
                 </div>
             </li>
             {% if user.is_authenticated %}

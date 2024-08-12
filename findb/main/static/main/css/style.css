@@ -4,10 +4,8 @@ body {
     font-family: Arial, sans-serif;
     background-color: #121212;
     color: white;
-    overflow-x: hidden;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
-
-
 
 /* Navigation Bar Styles */
 .navbar {
@@ -17,7 +15,7 @@ body {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    box-sizing: border-box;
+    box-sizing: border-box; /* Ensure padding is included in width */
     max-width: 100vw;
 }
 
@@ -36,20 +34,15 @@ body {
     padding: 0;
 }
 
-.navbar .nav-links li {
-    display: inline-block;
-    height: 100%;
-}
-
 .navbar .nav-links li a {
     color: white;
     text-decoration: none;
-    font-size: 18px; /* Increase font size */
-    padding: 15px 20px; /* Adjust padding to make it fit the navbar height */
+    font-size: 18px;
+    padding: 15px 20px;
     display: flex;
-    align-items: center; /* Vertically center the text */
+    align-items: center;
     height: 100%;
-    box-sizing: border-box; /* Ensure padding is included in the height */
+    box-sizing: border-box;
     transition: background-color 0.3s ease;
 }
 
@@ -58,18 +51,17 @@ body {
     border-radius: 4px;
 }
 
-
-
-
-/* Container for Centering the Form */
+/* Container for Centering the Content */
 .container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    min-height: 100vh;
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
-/* Styling the Form Box */
+/* Form Box Styling (e.g., Login Forms) */
 .form-box {
     background-color: #1e1e1e;
     padding: 20px 30px;
@@ -77,16 +69,15 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 400px;
+    margin-bottom: 30px;
 }
 
-/* Form Title Styling */
 .form-box h2 {
     text-align: center;
     margin-bottom: 20px;
     color: #fff;
 }
 
-/* Form Input Styling */
 .form-box form input[type="text"],
 .form-box form input[type="password"] {
     width: 100%;
@@ -97,10 +88,6 @@ body {
     background-color: #2c2c2c;
     color: #fff;
 }
-
-
-
-
 
 /* Submit Button Styling */
 .form-box form button {
@@ -119,27 +106,14 @@ body {
     background-color: #45a049;
 }
 
-
-
-
-
-/* Help Text and Error Message Styling */
-.form-box form .helptext,
-.form-box form .errorlist {
-    color: #f5f5f5;
+/* Error Messages Styling */
+.errorlist {
+    color: #ff6b6b;
     font-size: 12px;
     margin-bottom: 20px;
 }
 
-.errorlist {
-    color: #ff6b6b;
-}
-
-
-
-
-
-/* Homepage Content Styles */
+/* Home Page Content Styling */
 .home-content {
     text-align: center;
     padding: 50px 20px;
@@ -155,18 +129,17 @@ body {
     margin-bottom: 40px;
 }
 
-
 /* Dropdown Menu Styling */
 .dropdown {
-    position: relative; /* Position relative to the navbar */
+    position: relative;
 }
 
 .dropdown .dropbtn {
-    font-size: 18px; /* Increase font size */
-    padding: 15px 20px; /* Match padding with navbar links */
+    font-size: 18px;
+    padding: 15px 20px;
     display: flex;
-    align-items: center; /* Vertically center the text */
-    height: 100%; /* Make the button take the full height of the navbar */
+    align-items: center;
+    height: 100%;
     background-color: transparent;
     border: none;
     color: white;
@@ -176,78 +149,74 @@ body {
 
 .dropdown-content {
     display: none;
-    position: absolute; /* Position absolutely to allow it to drop over the body */
-    top: 100%; /* Position just below the dropdown button */
+    position: absolute;
+    top: 100%;
     left: 0;
     background-color: #222;
-    min-width: 200px; /* Make the dropdown wider */
+    min-width: 200px;
     padding: 10px 0;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1000; /* Ensure the dropdown appears above other content */
+    z-index: 1000;
     border-radius: 4px;
 }
 
 .dropdown-content a {
     color: white;
-    padding: 15px 20px; /* Increase padding for a larger clickable area */
+    padding: 15px 20px;
     text-decoration: none;
-    font-size: 16px; /* Increase font size */
+    font-size: 16px;
     display: block;
     transition: background-color 0.3s ease;
 }
 
 .dropdown-content a:hover {
-    background-color: #222;
+    background-color: #444;
 }
 
 .dropdown:hover .dropdown-content {
-    display: block; /* Show dropdown on hover */
+    display: block;
 }
 
 .dropdown:hover .dropbtn {
-    background-color: #444; /* Change button color on hover */
+    background-color: #444;
 }
 
-
-
-
-/* Alternate Action Button Styling */
+/* Alternate Action Button Styling (e.g., "Sign Up" button) */
 .alternate-action {
-    text-align: center; /* Center the text */
-    margin-top: 20px; /* Add some space above the button */
+    text-align: center;
+    margin-top: 20px;
 }
 
 .alternate-action p {
-    font-size: 14px; /* Set the font size */
-    color: #fff; /* Set the text color */
+    font-size: 14px;
+    color: #fff;
 }
 
 .alternate-action a.btn-alternate {
-    color: #4caf50; /* Green color for the button link */
-    text-decoration: none; /* Remove underline */
-    font-weight: bold; /* Make the text bold */
-    border: 1px solid #4caf50; /* Add a border */
-    padding: 10px 20px; /* Add padding to make it look like a button */
-    border-radius: 4px; /* Round the corners */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition effects */
+    color: #4caf50;
+    text-decoration: none;
+    font-weight: bold;
+    border: 1px solid #4caf50;
+    padding: 10px 20px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .alternate-action a.btn-alternate:hover {
-    background-color: #4caf50; /* Change background on hover */
-    color: #fff; /* Change text color on hover */
+    background-color: #4caf50;
+    color: #fff;
 }
 
-
-/* Centering the trade container */
+/* Trade Container Styling */
 .trade-container {
     background-color: #1e1e1e;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    width: 300px;
-    margin: 0 auto; /* Centering the container */
+    width: 100%;
+    max-width: 500px;
     text-align: center;
-    margin-top: 50px; /* Adjust margin for spacing from the top */
+    margin: 50px auto; /* Centering the container with top margin */
 }
 
 .trade-container h1 {
@@ -287,7 +256,7 @@ body {
     background-color: #0056b3;
 }
 
-/* Styling the summary */
+/* Trade Summary Styling */
 .trade-summary {
     margin-top: 20px;
     text-align: left;
@@ -295,4 +264,71 @@ body {
 
 .trade-summary p {
     margin: 5px 0;
+}
+
+/* Portfolio Section Styling */
+.portfolio-container {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto; /* Centering the container with margin */
+}
+
+.portfolio-container h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.portfolio-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.portfolio-container th,
+.portfolio-container td {
+    padding: 10px;
+    border: 1px solid #333;
+    text-align: center;
+}
+
+/* Trade History Section Styling */
+.history-container {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto; /* Centering the container with margin */
+}
+
+.history-container h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.history-container details {
+    margin-top: 10px;
+}
+
+.history-container summary {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.history-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.history-container th,
+.history-container td {
+    padding: 10px;
+    border: 1px solid #333;
+    text-align: center;
 }
