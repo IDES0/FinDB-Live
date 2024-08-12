@@ -19,9 +19,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('accounts/', include('allauth.urls')), # Prob can remove this later
     path('', include('main.urls')),
     path('user/', include('users.urls')),
     path('trade/', include('trade.urls')),
-
+    path('models/', include('models.urls')),
 ]
