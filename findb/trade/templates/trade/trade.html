@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 {% load tz %}
 {% block content %}
+
+<!-- Tells you your portfolio -->
 <div class="portfolio-container">
     <h1>Your Portfolio</h1>
     <p><strong>Current Balance:</strong> ${{ portfolio_balance }}</p>
+    <p><strong>Total Assets:</strong> ${{ total_assets }}</p>
     <table>
         <thead>
             <tr>
@@ -26,6 +29,7 @@
     </table>
 </div>
 
+<!-- Does the trade thingy -->
 <div class="trade-container">
     <h1>Make a Trade</h1>
     <form method="POST">
@@ -78,6 +82,30 @@
     {% endif %}
 </div>
 
+<!-- Whos winning/Top Assets -->
+<div class="leaderboard-container">
+    <h1>Leaderboard</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Username</th>
+                <th>Total Assets</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rank, portfolio, total_assets in leaderboard %}
+            <tr>
+                <td>{{ rank }}</td>
+                <td>{{ portfolio.user.username }}</td>
+                <td>${{ total_assets }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Transaction History -->
 <div class="history-container">
     <h1>Trade History</h1>
         <summary>Click to view your trade history</summary>

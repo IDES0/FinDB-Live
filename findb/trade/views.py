@@ -6,7 +6,13 @@ import yfinance as yf
 from decimal import Decimal
 
 def get_current_price(symbol):
-    return Decimal((yf.Ticker(symbol)).info['currentPrice'])  # This function will fetch the latest price
+    return Decimal((yf.Ticker(symbol)).info['currentPrice'])  # Fetch the latest price
+
+def calculate_total_assets(portfolio):
+    total_assets = portfolio.balance  # Start with the current cash balance
+    for holding in portfolio.holdings.all():
+        total_assets += holding.quantity * get_current_price(holding.security.symbol)  # Add the value of each holding
+    return total_assets
 
 @login_required
 def trade_view(request):
@@ -31,8 +37,8 @@ def trade_view(request):
                     # Get or create the Security object
                     security, created = Security.objects.get_or_create(symbol=ticker)
 
-                    # Now, get or create the Holding object
-                    holding, created = Holding.objects.get_or_create(portfolio=portfolio, security=security)                    
+                    # Get or create the Holding object
+                    holding, created = Holding.objects.get_or_create(portfolio=portfolio, security=security)
                     holding.quantity += quantity
                     holding.save()
 
@@ -43,6 +49,7 @@ def trade_view(request):
                         'portfolio_balance': portfolio.balance,
                         'holdings': portfolio.holdings.all(),
                         'transactions': portfolio.transaction_set.all(),
+                        'total_assets': calculate_total_assets(portfolio),
                     })
             elif action == 'sell':
                 try:
@@ -62,6 +69,7 @@ def trade_view(request):
                             'portfolio_balance': portfolio.balance,
                             'holdings': portfolio.holdings.all(),
                             'transactions': portfolio.transaction_set.all(),
+                            'total_assets': calculate_total_assets(portfolio),
                         })
                 except Holding.DoesNotExist:
                     return render(request, 'trade/trade.html', {
@@ -70,6 +78,7 @@ def trade_view(request):
                         'portfolio_balance': portfolio.balance,
                         'holdings': portfolio.holdings.all(),
                         'transactions': portfolio.transaction_set.all(),
+                        'total_assets': calculate_total_assets(portfolio),
                     })
 
             Transaction.objects.create(
@@ -91,6 +100,7 @@ def trade_view(request):
                 'portfolio_balance': portfolio.balance,
                 'holdings': portfolio.holdings.all(),
                 'transactions': portfolio.transaction_set.all(),
+                'total_assets': calculate_total_assets(portfolio),
             })
         else:
             form = TradeForm(request.POST)
@@ -113,11 +123,20 @@ def trade_view(request):
                     'portfolio_balance': portfolio.balance,
                     'holdings': portfolio.holdings.all(),
                     'transactions': portfolio.transaction_set.all(),
+                    'total_assets': calculate_total_assets(portfolio),
                 })
 
+    # Calculate leaderboard (e.g., top 10 users by total assets)
+    portfolios = Portfolio.objects.all()
+    leaderboard = [(index + 1, portfolio, calculate_total_assets(portfolio)) for index, portfolio in 
+                   enumerate(sorted(portfolios, key=lambda x: calculate_total_assets(x), reverse=True)[:10])]
+    
+    # Render the trade page with the user's portfolio and leaderboard
     return render(request, 'trade/trade.html', {
         'form': form,
         'portfolio_balance': portfolio.balance,
         'holdings': portfolio.holdings.all(),
         'transactions': portfolio.transaction_set.all(),
+        'total_assets': calculate_total_assets(portfolio),
+        'leaderboard': leaderboard,  # Pass leaderboard to template
     })

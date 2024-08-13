@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import yfinance as yf # Change this later
 
 # Represents securities that are available to trade
 class Security(models.Model):
